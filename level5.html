@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 5 - Draw your best Card and Collect Coins!</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ADD8E6;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .card {
+            background-color: #E0FFFF;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .coin-counter {
+            font-size: 2rem;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Levelled Up to 5! Pick your Card</h5>
+                <h6 class="card-text" id="cardValue">Draw a card to know its value and gain coins!</h6>
+                <p class="coin-counter" id="coinCounter">Coins: 0</p>
+                <p class="card-text" id="cardInfo">Choose the preffered card and earn coins, use it to the next
+                    level to bet which door has the same card value.
+                </p>
+                <p class="card-description" id="cardDescription"></p>
+                <button id="drawCardButton" class="btn btn-success">Draw Card</button>
+                <button id="decreaseButton" class="btn btn-danger">−</button>
+                <div class="mt-3">
+                    <a href="level4.html" class="btn btn-secondary">Back</a>
+                    <a href="level6.html" class="btn btn-primary">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        let coins = 0;
+        const coinsLimit = 15;
+        let lastDrawnCard = null;
+
+        const cards = [
+            { name: 'King', type: 'Face Card', description: 'Gain 3 coins.', value: 3 },
+            { name: 'Queen', type: 'Face Card', description: 'Gain 2 coins.', value: 2 },
+            { name: 'Jack', type: 'Face Card', description: 'Gain 1 coin.', value: 1 }
+        ];
+
+        document.getElementById('drawCardButton').addEventListener('click', function() {
+            if (coins >= coinsLimit) {
+                document.getElementById('cardValue').innerText = 'You have reached the maximum coins limit!';
+                document.getElementById('cardDescription').innerText = '';
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * cards.length);
+            lastDrawnCard = cards[randomIndex];
+
+            coins += lastDrawnCard.value;
+            document.getElementById('coinCounter').innerText = 'Coins: ' + coins;
+            document.getElementById('cardValue').innerText = 'You drew: ' + lastDrawnCard.name + ' (' + lastDrawnCard.type + ')';
+            document.getElementById('cardDescription').innerText = lastDrawnCard.description;
+        });
+
+        document.getElementById('decreaseButton').addEventListener('click', function() {
+            if (coins > 0) {
+                coins--;
+                document.getElementById('coinCounter').innerText = 'Coins: ' + coins;
+            }
+        });
+    </script>
+</body>
+</html>
